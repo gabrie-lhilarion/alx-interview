@@ -17,6 +17,7 @@ Example:
     ]
 """
 
+
 def pascal_triangle(n):
     """
     Generates Pascal's triangle of size n.
