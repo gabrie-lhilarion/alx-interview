@@ -16,6 +16,7 @@ status_code_counts = {
 }
 line_count = 0
 
+
 def print_stats():
     global total_file_size, status_code_counts
     print(f"File size: {total_file_size}")
@@ -23,9 +24,11 @@ def print_stats():
         if status_code_counts[code] > 0:
             print(f"{code}: {status_code_counts[code]}")
 
+
 def signal_handler(sig, frame):
     print_stats()
     sys.exit(0)
+
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -35,27 +38,32 @@ try:
         parts = line.split()
         if len(parts) != 7:
             continue
-        
+
         ip, dash, date, method, path, protocol, status, size = parts
-        if method != '"GET' or protocol != 'HTTP/1.1"' or not path.startswith('/projects/260'):
+
+        notget = method != '"GET'
+        nothttp1 = protocol != 'HTTP/1.1"'
+        motstartwith = not path.startswith('/projects/260')
+
+        if notget or nothttp1 or motstartwith:
             continue
-        
+
         try:
             size = int(size)
             status = str(status)
         except ValueError:
             continue
-        
+
         total_file_size += size
-        
+
         if status in status_code_counts:
             status_code_counts[status] += 1
-        
+
         line_count += 1
-        
+
         if line_count % 10 == 0:
             print_stats()
-        
+
 except Exception as e:
     print(f"Error: {e}")
 
