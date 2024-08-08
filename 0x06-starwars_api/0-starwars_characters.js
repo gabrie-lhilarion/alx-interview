@@ -1,25 +1,23 @@
 #!/usr/bin/env node
 
-const https = require('https');
+const request = require('request');
 
+// Function to fetch data from a URL
 function fetch (url) {
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
-      let data = '';
-
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      res.on('end', () => {
-        resolve(JSON.parse(data));
-      });
-    }).on('error', (err) => {
-      reject(err);
+    request(url, (error, response, body) => {
+      if (error) {
+        return reject(error);
+      }
+      if (response.statusCode !== 200) {
+        return reject(new Error('Failed to load data, status code: ' + response.statusCode));
+      }
+      resolve(JSON.parse(body));
     });
   });
 }
 
+// Function to print all characters of a movie by ID
 async function printMovieCharacters (movieId) {
   try {
     const movieUrl = `https://swapi.dev/api/films/${movieId}/`;
@@ -36,6 +34,7 @@ async function printMovieCharacters (movieId) {
   }
 }
 
+// Main script
 if (process.argv.length !== 3) {
   console.log('Usage: ./script.js <Movie ID>');
   process.exit(1);
