@@ -2,7 +2,6 @@
 
 const request = require('request');
 
-// Function to fetch data from a URL
 function fetch (url) {
   return new Promise((resolve, reject) => {
     request(url, (error, response, body) => {
@@ -17,7 +16,6 @@ function fetch (url) {
   });
 }
 
-// Function to print all characters of a movie by ID
 async function printMovieCharacters (movieId) {
   try {
     const movieUrl = `https://swapi.dev/api/films/${movieId}/`;
@@ -34,7 +32,6 @@ async function printMovieCharacters (movieId) {
   }
 }
 
-// Main script
 if (process.argv.length !== 3) {
   console.log('Usage: ./script.js <Movie ID>');
   process.exit(1);
