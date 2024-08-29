@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 This module provides a function to calculate the perimeter of an island
 represented in a grid.
